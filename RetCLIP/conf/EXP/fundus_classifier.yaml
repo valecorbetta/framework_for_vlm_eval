@@ -1,0 +1,5 @@
+name: fundus_classifier
+overlay_percentages: [0.0, 0.25, 0.50, 0.75, 1.0]
+_class:
+  _target_: RetCLIP.source.experiments.fundus_classifier.FundusExperiment
+

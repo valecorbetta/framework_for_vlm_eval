@@ -1,0 +1,31 @@
+name: fundus_classifier_imagenet
+path_to_ckpt: "none"   # not used; exists only to satisfy ${MODEL.path_to_ckpt} in PATHS
+_class:
+  _target_: RetCLIP.source.model.fundus_classifier.FundusClassifier
+  vision_encoder: ${MODEL.vision_encoder}
+  classifier: ${MODEL.classifier_layer}
+
+vision_encoder:
+  _target_: RetCLIP.source.model.vision_vit_imagenet.VisionViTImageNet
+  lora: ${TUNE.use_lora}
+  vision_encoder: ${MODEL.visual_transformer}
+  timm_model_name: "vit_base_patch16_224"
+  lora_r: ${TUNE.lora.r}
+  lora_alpha_mult: ${TUNE.lora.alpha_mult}
+  lora_dropout: ${TUNE.lora.dropout}
+  lora_target_modules: ${TUNE.lora.target_modules}
+
+visual_transformer:
+  _target_: RetCLIP.source.model.model.VisualTransformer
+  input_resolution: 224
+  patch_size: 16
+  width: 768
+  layers: 12
+  heads: 12
+  output_dim: 512
+  use_flash_attention: False
+
+classifier_layer:
+  _target_: ${CLASSIFIER._target_}
+  num_class: ${TASK.num_classes}
+  feature_dim: ${MODEL.visual_transformer.width}

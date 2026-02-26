@@ -1,0 +1,7 @@
+root_dir: PATH_TO_PROJECT_DIR
+results_dir: ${PATHS.root_dir}/results/FGADR
+path_to_split_csvs: ${PATHS.root_dir}/data/FGADR-Seg-set_Release
+data_dir: PATH_TO_DATA_DIR
+path_to_ckpt: PATH_TO_RETCLIP_CKPT
+path_to_cav_folder: PATH_TO_CAVS
+mask_root: PATH_TO_CONCEPT_MASKS

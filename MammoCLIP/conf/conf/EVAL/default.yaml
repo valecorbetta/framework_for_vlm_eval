@@ -1,0 +1,9 @@
+run: true
+num_workers: 16
+use_epoch_ckpt: false
+epoch: null          # e.g. 7
+epoch_manifest: null # optional full path to per-epoch json
+
+
+test_only:
+  root_dir: null

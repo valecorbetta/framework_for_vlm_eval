@@ -1,0 +1,6 @@
+root_dir: PATH_TO_PROJECT_DIR
+results_dir: ${PATHS.root_dir}/results
+path_to_split_csvs: ${PATHS.root_dir}/RELATIVE_PATH_TO_CSV_FOLDER
+data_dir: PATH_TO_DATA_FOLDER
+path_to_mammoclip_ckpt: ${MODEL.path_to_mammoclip_ckpt}
+path_to_cav_folder: PATH_TO_CAV_FOLDER

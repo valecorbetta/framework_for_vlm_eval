@@ -1,0 +1,9 @@
+name: debug
+seed: 42
+num_splits: 2
+batch_size: 8
+num_workers: 16
+use_class_weights: True
+enable_scheduler: True
+epochs: 3
+save_per_epoh: false

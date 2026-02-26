@@ -1,0 +1,8 @@
+name: artifacts
+enabled: True
+mode: inverted
+seed: ${TRAIN.seed}
+kinds: [out_of_focus_quarter, reflection_double_dot, eyelash_shadow, illumination_semicircle]
+
+
+

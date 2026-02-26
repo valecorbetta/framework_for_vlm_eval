@@ -1,0 +1,21 @@
+study_name: fundus_classifier_search
+n_trials: 40
+visualization: True
+full_train: True
+sampler:
+  _target_: optuna.samplers.TPESampler
+  seed: ${TRAIN.seed}
+pruner:
+  _target_: optuna.pruners.MedianPruner
+  n_warmup_steps: 1
+  interval_steps: 1
+
+epochs_search: 10
+lora_r: [8, 16, 32, 64]
+lora_dropout: [0.0, 0.1, 0.2]
+
+lr_classifier: [0.0005, 0.001, 0.002]
+lr_lora: [0.00003, 0.00005, 0.0001, 0.0002]
+
+# optional: multiplier for alpha = alpha_mult * r
+lora_alpha_mult: 2.0

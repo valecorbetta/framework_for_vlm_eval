@@ -1,0 +1,19 @@
+mode: lora
+freeze_backbone: false     
+use_lora: true
+lr_head: 0.0005
+lr_backbone: 0.0          # not used
+lr_lora: 0.0002
+lr_lora_text: null #not used yet
+
+lora:
+  r: 8
+  alpha_mult: 2.0
+  dropout: 0.1
+  target_modules: ["out_proj", "c_fc", "c_proj"]
+  text_encoder:
+    use_lora: false
+    r: 16
+    alpha_mult: 2.0
+    dropout: 0.1
+    target_modules: []

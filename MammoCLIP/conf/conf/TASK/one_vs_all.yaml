@@ -1,0 +1,5 @@
+name: binary
+num_classes: 1
+label_mode: one_vs_all
+loss: 
+  _target_: torch.nn.BCEWithLogitsLoss

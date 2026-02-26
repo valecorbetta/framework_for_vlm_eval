@@ -1,0 +1,2 @@
+name: linear
+_target_: source.models.linear_classifier.LinearClassifier

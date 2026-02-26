@@ -1,0 +1,19 @@
+study_name: multitask_search
+n_trials: 10
+visualization: True
+full_train: True
+sampler:
+  _target_: optuna.samplers.TPESampler
+  seed: ${TRAIN.seed}
+pruner:
+  _target_: optuna.pruners.MedianPruner
+  n_warmup_steps: 1
+  interval_steps: 1
+
+epochs_search: 10
+mode: both # stage1 or stage2
+
+concept_weight: 
+  low: 0.5
+  high: 1.0
+

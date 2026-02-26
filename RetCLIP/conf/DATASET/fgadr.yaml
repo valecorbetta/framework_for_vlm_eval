@@ -1,0 +1,6 @@
+task: $TASK
+overlay_cfg_train: {}
+overlay_cfg_test: {}
+name: FGADR
+_class:
+  _target_: RetCLIP.source.data.dataset_FGADR.FGADRDataset

@@ -1,0 +1,36 @@
+name: pcbm
+path_to_ckpt: ${PATHS.path_to_ckpt}
+
+_class:
+  _target_: RetCLIP.source.model.pcbm.PostHocCBM
+  vision_encoder: ${MODEL.vision_encoder}
+  predictor: ${MODEL.predictor}
+  feat_dim: ${MODEL.visual_transformer.output_dim}
+vision_encoder:
+  _target_: RetCLIP.source.model.vision_vit.VisionViT
+  lora: ${TUNE.use_lora}
+  ckpt_clip: ${MODEL.path_to_ckpt}
+  vision_encoder: ${MODEL.visual_transformer}
+  lora_r: ${TUNE.lora.r}
+  lora_alpha_mult: ${TUNE.lora.alpha_mult}
+  lora_dropout: ${TUNE.lora.dropout}
+  lora_target_modules: ${TUNE.lora.target_modules}
+
+tokenizer:
+  _target_: RetCLIP.source.model.model.FullTokenizer
+
+visual_transformer:
+  _target_: RetCLIP.source.model.model.VisualTransformer
+  input_resolution: 224
+  patch_size: 16
+  width: 768
+  layers: 12
+  heads: 12
+  output_dim: 512
+  use_flash_attention: False
+
+predictor:
+  _target_: ${CLASSIFIER._target_}
+  num_class: ${TASK.num_classes}
+  feature_dim: ${DATASET.num_concepts}
+

@@ -1,0 +1,14 @@
+name: artifacts
+mode: inverted
+enabled: True
+seed: ${TRAIN.seed}
+alpha: 1.0
+
+blend_mode: screen          # normal | multiply | screen | overlay
+tex_angle: 0.0               # extra rotation (deg) applied to the tiled canvas
+tex_scale: 1.0               # scales the texture tile before tiling
+tex_offset: [0, 0]           # x, y pixel shift (wrapped)
+
+artifacts:
+  enabled: True
+  kinds: ["collimator", "grid_misplacement"]

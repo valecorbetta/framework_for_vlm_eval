@@ -1,0 +1,8 @@
+name: default
+batch_size: 16
+num_workers: 4
+use_class_weights: True
+epochs: 30
+enable_scheduler: True
+num_splits: 5
+seed: 42

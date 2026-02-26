@@ -1,0 +1,19 @@
+mode: lora
+freeze_backbone: false
+use_lora: true
+lr_head: 5.0e-05
+lr_backbone: 0.0          # not used
+lr_lora: 0.0002
+lr_lora_text: null #not used yet
+
+lora:
+  r: 32
+  alpha_mult: 2.0
+  dropout: 0.2
+  target_modules: ["_expand_conv", "_project_conv", "_conv_head"]
+  text_encoder:
+    use_lora: false
+    r: 16
+    alpha_mult: 2.0
+    dropout: 0.1
+    target_modules: []

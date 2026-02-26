@@ -1,0 +1,2 @@
+_target_: source.utils.warmup_cosine.LinearWarmupCosineAnnealingLR
+epochs: ${TRAIN.epochs}

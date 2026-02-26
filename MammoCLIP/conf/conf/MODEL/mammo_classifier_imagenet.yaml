@@ -1,0 +1,26 @@
+name: mammo_classifier_imagenet
+path_to_mammoclip_ckpt: ${PATHS.path_to_mammoclip_ckpt}
+_class:
+  _target_: source.models.mammo_classifier.MammoClassifier
+  vision_encoder: ${MODEL.vision_encoder}
+  classifier: ${MODEL.classifier_layer}
+
+vision_encoder:
+  _target_: source.models.vision_efficientnet.VisionEfficientNet
+  lora: ${TUNE.use_lora}
+  ckpt_clip: null   # No MammoCLIP checkpoint — keep ImageNet pretrained weights
+  vision_encoder: ${MODEL.visual_efficientnet}
+  lora_r: ${TUNE.lora.r}
+  lora_alpha_mult: ${TUNE.lora.alpha_mult}
+  lora_dropout: ${TUNE.lora.dropout}
+  lora_target_modules: ${TUNE.lora.target_modules}
+
+visual_efficientnet:
+  _target_: source.models.efficientnet.EfficientNet.from_pretrained
+  model_name: "efficientnet-b2"
+  num_classes: 1
+
+classifier_layer:
+  _target_: ${CLASSIFIER._target_}
+  num_class: ${TASK.num_classes}
+  feature_dim: 1408

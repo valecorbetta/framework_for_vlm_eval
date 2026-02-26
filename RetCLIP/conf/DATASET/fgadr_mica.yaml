@@ -1,0 +1,18 @@
+task: $TASK
+overlay_cfg_train: {}
+overlay_cfg_test: {}
+name: FGADR
+text:
+  word_num: 33 
+num_concepts: 6
+_class:
+  _target_: RetCLIP.source.data.dataset_FGADR.FGADRConceptDataset
+  concept_map:
+    no_concepts: 眼底所见 无明显异常
+    concept_present: 眼底所见
+    has_HardExudate: 硬性渗出
+    has_Hemohedge: 出血  # typo corrected semantically
+    has_IRMA: 视网膜内微血管异常
+    has_Microaneurysms: 微血管瘤
+    has_Neovascularization: 新生血管
+    has_SoftExudate: 软性渗出  # or "棉絮斑"

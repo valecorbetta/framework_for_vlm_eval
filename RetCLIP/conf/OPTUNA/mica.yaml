@@ -1,0 +1,42 @@
+study_name: mica_search
+n_trials_stage_1: 60
+n_trials_stage_2: 10
+visualization: True
+full_train: True
+sampler:
+  _target_: optuna.samplers.TPESampler
+  seed: ${TRAIN.seed}
+pruner:
+  _target_: optuna.pruners.MedianPruner
+  n_warmup_steps: 1
+  interval_steps: 1
+
+epochs_search: 10
+mode: both # stage1 or stage2
+
+# ----- Stage 1 ----- #
+temp1: 
+  low: 5.0
+  high: 16.0
+temp2:
+  low: 4.0
+  high: 8.0
+temp3: 
+  low: 8.0
+  high: 12.0
+
+local_loss_weight:
+  low: 0.5
+  high: 1.0
+global_loss_weight: 
+  low: 0.5
+  high: 1.0
+concept_loss_weight: 
+  low: 0.5
+  high: 1.0
+
+# ----- Stage 2 ----- #
+concept_weight: 
+  low: 0.5
+  high: 1.0
+

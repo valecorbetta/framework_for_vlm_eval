@@ -1,0 +1,91 @@
+name: mica
+path_to_ckpt: ${PATHS.path_to_ckpt}
+stage_1:
+  _class: 
+    _target_: RetCLIP.source.model.mica_stage_1.MICAStage1
+    vision_encoder: ${MODEL.vision_encoder}
+    text_encoder: ${MODEL.text_encoder}
+  losses:
+    temp1: 9.946549442491659
+    temp2: 7.688896607788848
+    temp3: 11.997799892057488
+    local_loss_weight: 0.5141554488588642
+    global_loss_weight: 0.5003692455620204
+    concept_loss_weight: 0.5264386302607952
+
+stage_2:
+  _class:
+    _target_: RetCLIP.source.model.mica_stage_2.MICAStage2CBM
+    vision_encoder: ${MODEL.vision_encoder}
+    concept_head: ${MODEL.concept_head}
+    predictor: ${MODEL.predictor}
+    freeze_encoder: true
+  stage_1_ckpt: null
+  stage_1_lora_dir: null
+  concept_weight: 0.7584442335012195
+
+text_encoder:
+  _target_: RetCLIP.source.model.text_bert.TextBert
+  ckpt_clip: ${MODEL.path_to_ckpt}
+  text_encoder: ${MODEL.text_bert} 
+  tokenizer: ${MODEL.tokenizer}
+  text_hidden_size: ${MODEL.text_bert.config.hidden_size}
+  embed_dim: ${MODEL.visual_transformer.output_dim} 
+  last_n_layers: 4
+  aggregate_method: sum
+  norm: false
+  agg_tokens: true
+  lora: ${TUNE.lora.text_encoder.use_lora}
+  lora_r: ${TUNE.lora.text_encoder.r}
+  lora_alpha_mult: ${TUNE.lora.text_encoder.alpha_mult}
+  lora_dropout: ${TUNE.lora.text_encoder.dropout}
+  lora_target_modules: ${TUNE.lora.text_encoder.target_modules}
+
+text_bert:
+  _target_: RetCLIP.source.model.model.BertModel
+  config:
+    _target_: RetCLIP.source.model.configuration_bert.BertConfig
+    vocab_size_or_config_json_file: 21128
+    attention_probs_dropout_prob: 0.1 
+    hidden_act: gelu
+    hidden_dropout_prob: 0.1
+    hidden_size: 768
+    initializer_range: 0.02
+    intermediate_size: 3072
+    max_position_embeddings: 512
+    num_attention_heads: 12 
+    num_hidden_layers: 12
+    type_vocab_size: 2  
+
+tokenizer:
+  _target_: RetCLIP.source.model.model.FullTokenizer
+
+vision_encoder:
+  _target_: RetCLIP.source.model.vision_vit.VisionViT
+  lora: ${TUNE.use_lora}
+  ckpt_clip: ${MODEL.path_to_ckpt}
+  vision_encoder: ${MODEL.visual_transformer}
+  lora_r: ${TUNE.lora.r}
+  lora_alpha_mult: ${TUNE.lora.alpha_mult}
+  lora_dropout: ${TUNE.lora.dropout}
+  lora_target_modules: ${TUNE.lora.target_modules}
+
+visual_transformer:
+  _target_: RetCLIP.source.model.model.VisualTransformer
+  input_resolution: 224
+  patch_size: 16
+  width: 768
+  layers: 12
+  heads: 12
+  output_dim: 512
+  use_flash_attention: False
+
+concept_head:
+  _target_: ${CLASSIFIER._target_}
+  num_class: ${DATASET.num_concepts}
+  feature_dim: ${MODEL.visual_transformer.output_dim}
+
+predictor:
+  _target_: ${CLASSIFIER._target_}
+  num_class: ${TASK.num_classes}
+  feature_dim: ${DATASET.num_concepts}

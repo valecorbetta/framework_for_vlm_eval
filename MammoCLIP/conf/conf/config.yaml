@@ -1,0 +1,22 @@
+defaults:
+  - _self_
+  - OPTIMIZER: adamw
+  - SCHEDULER: warmup_cosine
+  - DATASET: embed
+  - TRAIN: default
+  - TASK: diagnosis
+  - MODEL: mammo_classifier
+  - PATHS: embed
+  - SPURIOUS@DATASET.overlay_cfg_train: artifacts_same
+  - SPURIOUS@DATASET.overlay_cfg_test: artifacts_same
+  - CLASSIFIER: linear
+  - EVAL: default
+  - EXP: mammo_classifier
+  - MODE: optuna
+  - TUNE: lora
+  - OPTUNA: mammo_classifier
+
+hydra:
+  sweep:
+    dir: ${PATHS.results_dir}/${DATASET.name}/${TUNE.mode}/${TASK.name}/${DATASET.overlay_cfg_test.name}/${TASK.label_mode}/${MODEL.name}/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${hydra.job.id}

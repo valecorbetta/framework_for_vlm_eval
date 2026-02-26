@@ -1,0 +1,9 @@
+name: default
+seed: 42
+num_splits: 4
+batch_size: 8
+num_workers: 16
+use_class_weights: True
+enable_scheduler: True
+epochs: 15 
+save_per_epoch: false

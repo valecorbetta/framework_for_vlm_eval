@@ -1,0 +1,2 @@
+mode: optuna
+after_optuna: [full_train] 

@@ -1,0 +1,39 @@
+name: multitask
+path_to_mammoclip_ckpt: ${PATHS.path_to_mammoclip_ckpt}
+_class:
+  _target_: source.models.multi_task.MammoCLIPMultiTask
+  vision_encoder: ${MODEL.vision_encoder}
+  concept_head: ${MODEL.concept_head}
+  diag_head: ${MODEL.diag_head}
+  ckpt_clip: ${MODEL.path_to_mammoclip_ckpt}
+  image_global_feat_dim: 1408
+  embed_dim: 512
+  freeze_projection: true
+losses:
+  concept_weight: 1.0
+  learned_concept_weight: false
+
+vision_encoder:
+  _target_: source.models.vision_efficientnet.VisionEfficientNet
+  lora: ${TUNE.use_lora}
+  ckpt_clip: ${MODEL.path_to_mammoclip_ckpt}
+  vision_encoder: ${MODEL.visual_efficientnet}
+  lora_r: ${TUNE.lora.r}
+  lora_alpha_mult: ${TUNE.lora.alpha_mult}
+  lora_dropout: ${TUNE.lora.dropout}
+  lora_target_modules: ${TUNE.lora.target_modules}
+
+visual_efficientnet:
+  _target_: source.models.efficientnet.EfficientNet.from_pretrained
+  model_name: "efficientnet-b2"
+  num_classes: 1
+
+concept_head:
+  _target_: ${CLASSIFIER._target_}
+  num_class: ${DATASET.num_concepts}
+  feature_dim: ${MODEL._class.embed_dim}
+
+diag_head:
+  _target_: ${CLASSIFIER._target_}
+  num_class: ${TASK.num_classes}
+  feature_dim: ${MODEL._class.embed_dim}

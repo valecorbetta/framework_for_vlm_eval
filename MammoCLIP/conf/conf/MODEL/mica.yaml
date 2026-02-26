@@ -1,0 +1,92 @@
+name: mica
+path_to_mammoclip_ckpt: ${PATHS.path_to_mammoclip_ckpt}
+
+# Shared embedding dimension (output of projection layers)
+# This should match the checkpoint's projection output dimension
+embed_dim: 512
+
+image_global_feat_dim: 1408 
+image_local_feat_dim: 120 
+
+# BERT hidden size (Bio_ClinicalBERT)
+text_feat_dim: 768
+
+stage_1:
+  _class:
+    _target_: source.models.mica_stage_1.MICAStage1
+    vision_encoder: ${MODEL.vision_encoder}
+    text_encoder: ${MODEL.text_encoder}
+    # Pass checkpoint for loading text projection (image projection dims won't match for local features)
+    ckpt_clip: ${MODEL.path_to_mammoclip_ckpt}
+    image_feat_dim: ${MODEL.image_local_feat_dim}
+    image_global_feat_dim: ${MODEL.image_global_feat_dim}
+    text_feat_dim: ${MODEL.text_feat_dim}
+    embed_dim: ${MODEL.embed_dim}
+  losses:
+    temp1: 7.601775899659827
+    temp2: 5.486075593052797
+    temp3: 10.350586863577076
+    local_loss_weight: 0.5042563966829428
+    global_loss_weight: 0.5062856980226974
+    concept_loss_weight: 0.5004495870867948
+
+stage_2:
+  _class:
+    _target_: source.models.mica_stage_2.MICAStage2CBM
+    vision_encoder: ${MODEL.vision_encoder}
+    concept_head: ${MODEL.concept_head}
+    predictor: ${MODEL.predictor}
+    freeze_encoder: true
+    ckpt_clip: ${MODEL.path_to_mammoclip_ckpt}
+    image_global_feat_dim: ${MODEL.image_global_feat_dim}
+    embed_dim: ${MODEL.embed_dim}
+
+  stage_1_ckpt: null
+  stage_1_lora_dir: null
+  concept_weight: 0.8304665367749179
+  learned_concept_weight: false
+  stage_1_root_dir: null
+
+text_encoder:
+  _target_: source.models.text_encoder.TextEncoderMICA
+  bert_type: "emilyalsentzer/Bio_ClinicalBERT"
+  ckpt_clip: ${MODEL.path_to_mammoclip_ckpt}
+  last_n_layers: 4
+  aggregate_method: sum
+  norm: false
+  embedding_dim: ${MODEL.text_feat_dim}
+  agg_tokens: true
+  lora: ${TUNE.lora.text_encoder.use_lora}
+  lora_r: ${TUNE.lora.text_encoder.r}
+  lora_alpha_mult: ${TUNE.lora.text_encoder.alpha_mult}
+  lora_dropout: ${TUNE.lora.text_encoder.dropout}
+  lora_target_modules: ${TUNE.lora.text_encoder.target_modules}
+
+tokenizer:
+  _target_: transformers.AutoTokenizer.from_pretrained
+  pretrained_model_name_or_path: "emilyalsentzer/Bio_ClinicalBERT"
+
+vision_encoder:
+  _target_: source.models.vision_efficientnet.VisionEfficientNet
+  lora: ${TUNE.use_lora}
+  ckpt_clip: ${MODEL.path_to_mammoclip_ckpt}
+  vision_encoder: ${MODEL.visual_efficientnet}
+  lora_r: ${TUNE.lora.r}
+  lora_alpha_mult: ${TUNE.lora.alpha_mult}
+  lora_dropout: ${TUNE.lora.dropout}
+  lora_target_modules: ${TUNE.lora.target_modules}
+
+visual_efficientnet:
+  _target_: source.models.efficientnet.EfficientNet.from_pretrained
+  model_name: "efficientnet-b2"
+  num_classes: 1
+
+concept_head:
+  _target_: ${CLASSIFIER._target_}
+  num_class: ${DATASET.num_concepts}
+  feature_dim: ${MODEL.embed_dim}
+
+predictor:
+  _target_: ${CLASSIFIER._target_}
+  num_class: ${TASK.num_classes}
+  feature_dim: ${DATASET.num_concepts}

@@ -1,0 +1,7 @@
+task: $TASK
+overlay_cfg_train: {}
+overlay_cfg_test: {}
+name: EMBED
+_class:
+  _target_: source.data.embed_dataset.EmbedAnnotatedDataset
+  

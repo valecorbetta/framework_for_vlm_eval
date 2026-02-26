@@ -1,0 +1,6 @@
+name: multiclass
+num_classes: 3
+label_mode: diagnosis
+loss: 
+  _target_: torch.nn.CrossEntropyLoss
+  label_smoothing: 0.1
