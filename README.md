@@ -56,7 +56,7 @@ For our mammography experiments we release BI-RADS lexicon annotations for **400
 The annotations are released under terms mirroring the EMBED Research Use Agreement, with the written permission of the EMBED dataset creators (Emory University School of Medicine). They **are not usable without independent access to EMBED**.
 
 **Access:**
-- Zenodo (restricted access, DOI): [10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
+- Zenodo (restricted access, DOI): [10.5281/zenodo.20849421](https://doi.org/10.5281/zenodo.20849421)
 - To obtain the annotations, you must first request access to EMBED dataset. Afterwards, please email v.corbetta@nki.nl, with the confirmation of dataset access. 
 
 `MammoCLIP/conf/demo_patient_visualization.ipynb` is a demonstration notebook for loading the annotations.
@@ -166,12 +166,18 @@ If you use the annotations on EMBED please cite:
   year={2026}
 }
 
-@dataset{corbetta2026embed_annotations,
-  title     = {BI-RADS Annotations for the EMBED Dataset},
-  author    = {Corbetta, Valentina and others},
-  year      = {2026},
-  publisher = {Zenodo},
-  doi       = {10.5281/zenodo.XXXXXXX}
+@dataset{corbetta_2026_20849422,
+  author       = {Corbetta, Valentina and
+                  Boeke, Daan and
+                  Portaluri, Antonio and
+                  Ze, Muzhen},
+  title        = {Additional BIRADS annotations to EMBED dataset},
+  month        = jun,
+  year         = 2026,
+  publisher    = {Zenodo},
+  version      = {v1.0},
+  doi          = {10.5281/zenodo.20849422},
+  url          = {https://doi.org/10.5281/zenodo.20849422},
 }
 ```
 
