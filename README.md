@@ -61,6 +61,9 @@ The annotations are released under terms mirroring the EMBED Research Use Agreem
 
 `MammoCLIP/conf/demo_patient_visualization.ipynb` is a demonstration notebook for loading the annotations.
 
+**Annotation process detail:**
+You can find the [3D Slicer](https://www.slicer.org/) extension developed to perform the annotations at this [GitHub repo](https://github.com/valecorbetta/AnnotateEMBED).
+
 ## Setup
 
 ### Configuration
