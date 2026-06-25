@@ -174,7 +174,7 @@ If you use the annotations on EMBED please cite:
   author       = {Corbetta, Valentina and
                   Boeke, Daan and
                   Portaluri, Antonio and
-                  Ze, Muzhen},
+                  He, Muzhen},
   title        = {Additional BIRADS annotations to EMBED dataset},
   month        = jun,
   year         = 2026,
