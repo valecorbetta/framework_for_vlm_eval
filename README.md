@@ -1,4 +1,4 @@
-# Beyond Clean Test Sets: Spurious Correlations in Medical Vision-language Models and the Role of Concept Supervision
+# Beyond Clean Test Sets: Spurious Correlations in Medical Vision-language Models and the Role of Concept Supervision [MICCAI '26]
 
 This repository provides the code for a controlled evaluation framework that tests the robustness of domain-specific medical vision–language models (VLMs) to spurious correlations, using synthetic artifacts and concept-based supervision across two clinical domains.
 
