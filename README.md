@@ -57,7 +57,7 @@ The annotations are released under terms mirroring the EMBED Research Use Agreem
 
 **Access:**
 - Zenodo (restricted access, DOI): [10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
-- Documentation and access request form: [google form]
+- To obtain the annotations, you ust first request access to EMBED dataset. Afterwards, please email v.corbetta@nki.nl, with the confirmation of dataset access. 
 
 The annotations repository contains the full license text, access procedure, and a demonstration notebook for loading the annotations.
 
